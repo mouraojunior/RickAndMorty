@@ -2,6 +2,7 @@ package juniormourao.rickandmorty.data.remote.dto
 
 
 import com.google.gson.annotations.SerializedName
+import juniormourao.rickandmorty.data.cache.entity.CharacterEntity
 
 data class CharacterDto(
     @SerializedName("created")
@@ -28,4 +29,15 @@ data class CharacterDto(
     val type: String,
     @SerializedName("url")
     val url: String
-)
+) {
+    fun toCharacter() = CharacterEntity(
+        gender = gender,
+        id = id,
+        image = image,
+        location = location.name,
+        name = name,
+        origin = origin.name,
+        species = species,
+        status = status
+    )
+}
