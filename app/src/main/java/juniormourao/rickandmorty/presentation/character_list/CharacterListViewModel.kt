@@ -1,4 +1,4 @@
-package juniormourao.rickandmorty.presentation
+package juniormourao.rickandmorty.presentation.character_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +20,7 @@ class CharacterListViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharacters
 ) : ViewModel() {
     private val _characterListState = MutableSharedFlow<CharacterListState>()
-    val characterListState = _characterListState.asSharedFlow()
+    var characterListState = _characterListState.asSharedFlow()
 
     init {
         getCharacters()
