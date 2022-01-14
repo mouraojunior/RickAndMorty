@@ -7,14 +7,14 @@
     <application
         android:allowBackup="true"
         android:fullBackupOnly="true"
-        android:name="juniormourao.RickAndMortyApplication"
+        android:name=".core.RickAndMortyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RickAndMorty">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

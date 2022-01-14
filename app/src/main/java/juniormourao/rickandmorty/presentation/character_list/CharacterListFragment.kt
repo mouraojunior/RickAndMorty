@@ -7,9 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import juniormourao.rickandmorty.R
 import juniormourao.rickandmorty.databinding.FragmentCharacterListBinding
+import juniormourao.rickandmorty.presentation.adapters.CharacterListAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -17,12 +20,24 @@ import kotlinx.coroutines.launch
 class CharacterListFragment : Fragment(R.layout.fragment_character_list) {
     private lateinit var characterListBinding: FragmentCharacterListBinding
     private val characterListViewModel: CharacterListViewModel by viewModels()
+    private val characterListAdapter = CharacterListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         characterListBinding = FragmentCharacterListBinding.bind(view)
 
+        setupCharacterRecyclerView()
         collectFromViewModel()
+    }
+
+    private fun setupCharacterRecyclerView() {
+        characterListBinding.apply {
+            rvCharacters.apply {
+                setHasFixedSize(true)
+                layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                adapter = characterListAdapter
+            }
+        }
     }
 
     private fun collectFromViewModel() {
@@ -32,7 +47,9 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list) {
                         when (state) {
                             is CharacterListState.Error -> println("ErrorState: ${state.errorMessage}")
                             is CharacterListState.Loading -> println("LoadingState")
-                            is CharacterListState.Success -> println("SuccessState: ${state.characterList}")
+                            is CharacterListState.Success -> {
+                                characterListAdapter.submitList(state.characterList)
+                            }
                         }
                     }
                 }
