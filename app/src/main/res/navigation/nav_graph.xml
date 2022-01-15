@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/characterListFragment"
         android:name="juniormourao.rickandmorty.presentation.character_list.CharacterListFragment"
-        android:label="fragment_character_list"
+        android:label="Characters"
         tools:layout="@layout/fragment_character_list" />
 </navigation>
