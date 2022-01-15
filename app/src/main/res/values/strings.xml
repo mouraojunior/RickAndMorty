@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
     <string name="character_image">Character Image</string>
+    <string name="fechar">fechar</string>
 </resources>

@@ -7,10 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import juniormourao.rickandmorty.R
+import juniormourao.rickandmorty.core.Extensions.showSnackBar
 import juniormourao.rickandmorty.databinding.FragmentCharacterListBinding
 import juniormourao.rickandmorty.presentation.adapters.CharacterListAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -41,18 +41,20 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list) {
     }
 
     private fun collectFromViewModel() {
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    characterListViewModel.characterListState.collectLatest { state ->
-                        when (state) {
-                            is CharacterListState.Error -> println("ErrorState: ${state.errorMessage}")
-                            is CharacterListState.Loading -> println("LoadingState")
-                            is CharacterListState.Success -> {
-                                characterListAdapter.submitList(state.characterList)
-                            }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                characterListViewModel.characterListState.collectLatest { state ->
+                    when (state) {
+                        is CharacterListState.Error -> {
+                            characterListBinding.root.showSnackBar(state.errorMessage)
+                        }
+                        is CharacterListState.Loading -> println("LoadingState")
+                        is CharacterListState.Success -> {
+                            characterListAdapter.submitList(state.characterList)
                         }
                     }
                 }
             }
+        }
     }
 }
