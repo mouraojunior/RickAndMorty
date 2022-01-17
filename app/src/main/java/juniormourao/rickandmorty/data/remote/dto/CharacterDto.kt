@@ -30,7 +30,7 @@ data class CharacterDto(
     @SerializedName("url")
     val url: String
 ) {
-    fun toCharacter() = CharacterEntity(
+    fun toCharacterEntity() = CharacterEntity(
         gender = gender,
         id = id,
         image = image,

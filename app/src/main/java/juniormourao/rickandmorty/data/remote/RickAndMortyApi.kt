@@ -2,10 +2,14 @@ package juniormourao.rickandmorty.data.remote
 
 import juniormourao.rickandmorty.data.remote.dto.CharacterResponseDto
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface RickAndMortyApi {
     @GET("character")
-    suspend fun getCharacters(): CharacterResponseDto
+    suspend fun getCharacters(
+        @Query("page")
+        page: Int
+    ): CharacterResponseDto
 
     companion object {
         const val BASE_URL_API = "https://rickandmortyapi.com/api/"

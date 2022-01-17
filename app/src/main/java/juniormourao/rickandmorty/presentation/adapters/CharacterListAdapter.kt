@@ -2,6 +2,7 @@ package juniormourao.rickandmorty.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import juniormourao.rickandmorty.databinding.CharacterListItemBinding
 import juniormourao.rickandmorty.domain.model.Character
 
 class CharacterListAdapter :
-    ListAdapter<Character, CharacterListAdapter.CharacterListViewHolder>(CharacterComparator()) {
+    PagingDataAdapter<Character, CharacterListAdapter.CharacterListViewHolder>(CharacterComparator()) {
 
     class CharacterListViewHolder(private val binding: CharacterListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

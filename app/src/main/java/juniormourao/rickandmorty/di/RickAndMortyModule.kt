@@ -1,6 +1,7 @@
 package juniormourao.rickandmorty.di
 
 import android.app.Application
+import androidx.paging.ExperimentalPagingApi
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -27,10 +28,11 @@ object RickAndMortyModule {
 
     @Singleton
     @Provides
+    @ExperimentalPagingApi
     fun provideCharacterRepository(
         api: RickAndMortyApi,
         db: RickAndMortyDatabase
-    ): CharacterRepository = CharacterRepositoryImpl(api, db.characterDao)
+    ): CharacterRepository = CharacterRepositoryImpl(api, db)
 
     @Singleton
     @Provides

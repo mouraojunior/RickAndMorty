@@ -1,27 +1,40 @@
 package juniormourao.rickandmorty.data.repository
 
-import juniormourao.rickandmorty.core.Resource
-import juniormourao.rickandmorty.data.cache.dao.CharacterDao
+import androidx.paging.*
+import juniormourao.rickandmorty.data.cache.RickAndMortyDatabase
 import juniormourao.rickandmorty.data.remote.RickAndMortyApi
 import juniormourao.rickandmorty.domain.model.Character
 import juniormourao.rickandmorty.domain.repository.CharacterRepository
+import juniormourao.rickandmorty.data.paging.CharacterRemoteMediator
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
+private const val PAGE_SIZE = 25
+
+@ExperimentalPagingApi
 class CharacterRepositoryImpl(
     private val api: RickAndMortyApi,
-    private val characterDao: CharacterDao
+    private val db: RickAndMortyDatabase
 ) : CharacterRepository {
-    override fun getCharacters(): Flow<Resource<List<Character>>> = flow {
-        emit(Resource.Loading())
-        try {
-            val charactersApi = api.getCharacters().results
-            if (charactersApi.isNotEmpty()) {
-                characterDao.insertCharacters(charactersApi.map { it.toCharacter() })
-            }
-            emit(Resource.Success(characterDao.getCharacters().map { it.toCharacter() }))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message ?: "An unexpected error has occurred."))
+    override fun getCharacters(): Flow<PagingData<Character>> {
+        val pagingSourceFactory = { db.characterDao.getCharacters() }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE * 3,
+                maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
+                jumpThreshold = Int.MIN_VALUE,
+                enablePlaceholders = false,
+            ),
+            remoteMediator = CharacterRemoteMediator(
+                api,
+                db
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow.map { CharacterEntityPagingData ->
+            CharacterEntityPagingData.map { characterEntity -> characterEntity.toCharacter() }
         }
     }
 }
