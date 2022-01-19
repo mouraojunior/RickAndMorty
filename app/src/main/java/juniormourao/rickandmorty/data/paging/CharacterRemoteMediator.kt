@@ -24,14 +24,10 @@ class CharacterRemoteMediator(
         val key = when (loadType) {
             LoadType.REFRESH -> {
                 if (db.characterDao.countCharacters() > 0) return MediatorResult.Success(false)
-                null
+                else null
             }
-            LoadType.PREPEND -> {
-                return MediatorResult.Success(endOfPaginationReached = true)
-            }
-            LoadType.APPEND -> {
-                getKey()
-            }
+            LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+            LoadType.APPEND -> getKey()
         }
 
         try {
