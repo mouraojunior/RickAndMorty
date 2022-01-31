@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import juniormourao.rickandmorty.core.GlideApp
@@ -13,9 +12,20 @@ import juniormourao.rickandmorty.domain.model.Character
 
 class CharacterListAdapter :
     PagingDataAdapter<Character, CharacterListAdapter.CharacterListViewHolder>(CharacterComparator()) {
+    var characterClickListener: CharacterClickListener? = null
 
-    class CharacterListViewHolder(private val binding: CharacterListItemBinding) :
+    inner class CharacterListViewHolder(private val binding: CharacterListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            characterClickListener
+            itemView.setOnClickListener {
+                characterClickListener?.onCharacterClicked(
+                    getItem(absoluteAdapterPosition)
+                )
+            }
+        }
+
         fun bindCharacter(character: Character) {
             binding.apply {
                 tvCharacterName.text = character.name
@@ -45,5 +55,9 @@ class CharacterListAdapter :
 
         override fun areContentsTheSame(oldItem: Character, newItem: Character) =
             oldItem == newItem
+    }
+
+    interface CharacterClickListener {
+        fun onCharacterClicked(character: Character?)
     }
 }

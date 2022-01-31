@@ -1,5 +1,24 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">RickAndMorty</string>
-    <string name="character_image">Character Image</string>
-    <string name="fechar">fechar</string>
+
+    <!-- Labels -->
+    <string name="species">Species</string>
+    <string name="gender">Gender</string>
+    <string name="status">Status</string>
+    <string name="location">Location</string>
+    <string name="origin">Origin</string>
+    <string name="about">About</string>
+
+    <!-- Buttons/Options -->
+    <string name="close">fechar</string>
+
+    <!-- Image: Content Description -->
+    <string name="character_character_image">Character: Character Image</string>
+    <string name="character_detail_character_image">Character Detail: Character Image</string>
+    <string name="character_detail_origin_icon">Character Detail: Origin Icon</string>
+    <string name="character_detail_species_icon">Character Detail: Species Icon</string>
+    <string name="character_detail_gender_icon">Character Detail: Gender Icon</string>
+    <string name="character_detail_status_icon">Character Detail: Status Icon</string>
+    <string name="character_detail_location_icon">Character Detail: Location Icon</string>
 </resources>

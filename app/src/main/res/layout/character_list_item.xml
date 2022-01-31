@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/imgvCharacterImage"
-            android:contentDescription="@string/character_image"
+            android:contentDescription="@string/character_character_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

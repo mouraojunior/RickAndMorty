@@ -9,5 +9,23 @@
         android:id="@+id/characterListFragment"
         android:name="juniormourao.rickandmorty.presentation.character_list.CharacterListFragment"
         android:label="Characters"
-        tools:layout="@layout/fragment_character_list" />
+        tools:layout="@layout/fragment_character_list">
+        <action
+            android:id="@+id/action_characterListFragment_to_characterDetailFragment"
+            app:destination="@id/characterDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="juniormourao.rickandmorty.presentation.character_detail.CharacterDetailFragment"
+        android:label="Character Detail"
+        tools:layout="@layout/fragment_character_detail">
+        <argument
+            android:name="character"
+            app:argType="juniormourao.rickandmorty.domain.model.Character"
+            app:nullable="false" />
+    </fragment>
 </navigation>
