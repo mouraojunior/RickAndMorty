@@ -9,8 +9,8 @@ import juniormourao.rickandmorty.data.cache.entity.CharacterEntity
 
 @Dao
 interface CharacterDao {
-    @Query("Select * from tbCharacter")
-    fun getCharacters(): PagingSource<Int, CharacterEntity>
+    @Query("Select * from tbCharacter where name LIKE '%' || :characterName || '%'")
+    fun getCharactersByName(characterName: String): PagingSource<Int, CharacterEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCharacters(characters: List<CharacterEntity>)

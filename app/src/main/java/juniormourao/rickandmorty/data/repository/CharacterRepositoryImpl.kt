@@ -2,7 +2,7 @@ package juniormourao.rickandmorty.data.repository
 
 import androidx.paging.*
 import juniormourao.rickandmorty.data.cache.RickAndMortyDatabase
-import juniormourao.rickandmorty.data.paging.CharacterRemoteMediator
+import juniormourao.rickandmorty.data.paging.CharacterByNameRemoteMediator
 import juniormourao.rickandmorty.data.remote.RickAndMortyApi
 import juniormourao.rickandmorty.domain.model.Character
 import juniormourao.rickandmorty.domain.repository.CharacterRepository
@@ -14,8 +14,8 @@ class CharacterRepositoryImpl(
     private val api: RickAndMortyApi,
     private val db: RickAndMortyDatabase
 ) : CharacterRepository {
-    override fun getCharacters(): Flow<PagingData<Character>> {
-        val pagingSourceFactory = { db.characterDao.getCharacters() }
+    override fun getCharactersByName(characterName: String): Flow<PagingData<Character>> {
+        val pagingSourceFactory = { db.characterDao.getCharactersByName(characterName) }
 
         return Pager(
             config = PagingConfig(
@@ -25,9 +25,10 @@ class CharacterRepositoryImpl(
                 jumpThreshold = Int.MIN_VALUE,
                 enablePlaceholders = true,
             ),
-            remoteMediator = CharacterRemoteMediator(
+            remoteMediator = CharacterByNameRemoteMediator(
                 api,
-                db
+                db,
+                characterName
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { CharacterEntityPagingData ->

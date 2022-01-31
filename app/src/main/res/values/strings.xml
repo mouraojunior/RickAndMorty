@@ -13,6 +13,9 @@
     <!-- Buttons/Options -->
     <string name="close">fechar</string>
 
+    <!-- Menu -->
+    <string name="search_character">Search Character</string>
+
     <!-- Image: Content Description -->
     <string name="character_character_image">Character: Character Image</string>
     <string name="character_detail_character_image">Character Detail: Character Image</string>

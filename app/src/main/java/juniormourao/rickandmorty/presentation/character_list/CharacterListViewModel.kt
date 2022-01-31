@@ -3,27 +3,49 @@ package juniormourao.rickandmorty.presentation.character_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import juniormourao.rickandmorty.domain.model.Character
-import juniormourao.rickandmorty.domain.use_case.GetCharacters
-import kotlinx.coroutines.flow.Flow
+import juniormourao.rickandmorty.domain.use_case.GetCharactersByName
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
-    private val getCharactersUseCase: GetCharacters
+    private val getCharactersByNameUseCase: GetCharactersByName
 ) : ViewModel() {
-    private lateinit var _charactersFlow: Flow<PagingData<Character>>
-    val charactersFlow: Flow<PagingData<Character>>
-        get() = _charactersFlow
+    private val _charactersFlow = MutableSharedFlow<PagingData<Character>>()
+    val charactersFlow = _charactersFlow.asSharedFlow()
 
-    init {
-        getAllCharacters()
+    private val _searchQuery: MutableStateFlow<String> =
+        MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+    private var searchJob: Job? = null
+
+    fun onEvent(event: CharacterListEvent) {
+        when (event) {
+            is CharacterListEvent.GetAllCharactersByName -> onSearch(event.characterName)
+        }
     }
 
-    private fun getAllCharacters() {
-        _charactersFlow = getCharactersUseCase()
-            .cachedIn(viewModelScope)
+    init {
+        getCharactersByName("")
+    }
+
+    private fun getCharactersByName(characterName: String) {
+        getCharactersByNameUseCase(characterName).onEach {
+            _charactersFlow.emit(it)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun onSearch(query: String) {
+        _searchQuery.value = query
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(300L)
+            getCharactersByName(query)
+        }
     }
 }

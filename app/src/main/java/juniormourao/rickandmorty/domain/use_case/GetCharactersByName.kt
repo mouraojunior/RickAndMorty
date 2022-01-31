@@ -5,8 +5,9 @@ import juniormourao.rickandmorty.domain.model.Character
 import juniormourao.rickandmorty.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetCharacters(
+class GetCharactersByName(
     private val characterRepository: CharacterRepository
 ) {
-    operator fun invoke(): Flow<PagingData<Character>> = characterRepository.getCharacters()
+    operator fun invoke(characterName: String): Flow<PagingData<Character>> =
+        characterRepository.getCharactersByName(characterName)
 }

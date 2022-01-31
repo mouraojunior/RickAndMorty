@@ -1,6 +1,7 @@
 package juniormourao.rickandmorty.core
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.text.Html
 import android.view.View
 import android.widget.TextView
@@ -8,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import juniormourao.rickandmorty.R
 

@@ -10,12 +10,14 @@ import juniormourao.rickandmorty.data.cache.entity.CharacterEntity
 import juniormourao.rickandmorty.data.cache.entity.RemoteKeyEntity
 import juniormourao.rickandmorty.data.remote.RickAndMortyApi
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 
 @ExperimentalPagingApi
-class CharacterRemoteMediator(
+class CharacterByNameRemoteMediator(
     private val api: RickAndMortyApi,
-    private val db: RickAndMortyDatabase
+    private val db: RickAndMortyDatabase,
+    private val characterName: String
 ) : RemoteMediator<Int, CharacterEntity>() {
     override suspend fun load(
         loadType: LoadType,
@@ -31,12 +33,13 @@ class CharacterRemoteMediator(
         }
 
         try {
+
             if (key != null) {
                 if (key.isEndReached) return MediatorResult.Success(endOfPaginationReached = true)
             }
 
             val page: Int = key?.nextKey ?: 1
-            val apiResponse = api.getCharacters(page)
+            val apiResponse = api.getCharactersByName(page, characterName)
 
             val characters = apiResponse.results
 

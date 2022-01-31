@@ -12,7 +12,7 @@ import juniormourao.rickandmorty.data.remote.RickAndMortyApi
 import juniormourao.rickandmorty.data.remote.RickAndMortyApi.Companion.BASE_URL_API
 import juniormourao.rickandmorty.data.repository.CharacterRepositoryImpl
 import juniormourao.rickandmorty.domain.repository.CharacterRepository
-import juniormourao.rickandmorty.domain.use_case.GetCharacters
+import juniormourao.rickandmorty.domain.use_case.GetCharactersByName
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -22,9 +22,9 @@ import javax.inject.Singleton
 object RickAndMortyModule {
     @Singleton
     @Provides
-    fun provideGetCharactersUseCase(
+    fun provideGetCharactersByNameUseCase(
         getCharactersRepository: CharacterRepository
-    ): GetCharacters = GetCharacters(getCharactersRepository)
+    ): GetCharactersByName = GetCharactersByName(getCharactersRepository)
 
     @Singleton
     @Provides

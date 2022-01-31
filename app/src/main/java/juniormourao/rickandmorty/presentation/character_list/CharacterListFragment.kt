@@ -1,7 +1,10 @@
 package juniormourao.rickandmorty.presentation.character_list
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +18,6 @@ import juniormourao.rickandmorty.domain.model.Character
 import juniormourao.rickandmorty.presentation.adapters.CharacterListAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class CharacterListFragment : Fragment(R.layout.fragment_character_list),
@@ -30,6 +32,36 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
 
         setupCharacterRecyclerView()
         collectFromViewModel()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search_character, menu)
+        val item = menu.findItem(R.id.searchCharacterMenu)
+        val searchView = item?.actionView as SearchView
+        searchView.queryHint = "Type a character name"
+        searchView.setQuery(characterListViewModel.searchQuery.value, true)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                performSearchEvent(query)
+                return false
+            }
+
+        })
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun performSearchEvent(characterName: String) {
+        characterListViewModel.onEvent(CharacterListEvent.GetAllCharactersByName(characterName))
     }
 
     private fun setupCharacterRecyclerView() {
@@ -53,7 +85,6 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
     }
 
     override fun onCharacterClicked(character: Character?) {
-        Timber.e("characterClicked: $character")
         character?.let {
             findNavController().safeNavigate(
                 CharacterListFragmentDirections.actionCharacterListFragmentToCharacterDetailFragment(
