@@ -31,12 +31,23 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
         characterListBinding = FragmentCharacterListBinding.bind(view)
 
         setupCharacterRecyclerView()
+        setUpSwipeToRefresh()
         collectFromViewModel()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+    }
+
+    private fun setUpSwipeToRefresh() {
+        characterListBinding.swpRefreshCharacters.apply {
+            setOnRefreshListener {
+                characterListViewModel.onEvent(CharacterListEvent.GetAllCharactersByName(characterListViewModel.searchQuery.value))
+                characterListBinding.swpRefreshCharacters.isRefreshing = false
+                characterListBinding.rvCharacters.scrollToPosition(0)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
