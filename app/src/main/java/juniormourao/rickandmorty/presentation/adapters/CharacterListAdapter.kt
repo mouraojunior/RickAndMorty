@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import juniormourao.rickandmorty.core.GlideApp
+import coil.load
 import juniormourao.rickandmorty.databinding.CharacterListItemBinding
 import juniormourao.rickandmorty.domain.model.Character
 
@@ -30,11 +29,7 @@ class CharacterListAdapter :
             binding.apply {
                 tvCharacterName.text = character.name
                 tvCharacterId.text = character.id.toString()
-                GlideApp.with(binding.imgvCharacterImage.context)
-                    .load(character.image)
-                    .fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(binding.imgvCharacterImage)
+                imgvCharacterImage.load(character.image)
             }
         }
     }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +45,7 @@ class CharacterListViewModel @Inject constructor(
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(300L)
+            delay(500L)
             getCharactersByName(query)
         }
     }

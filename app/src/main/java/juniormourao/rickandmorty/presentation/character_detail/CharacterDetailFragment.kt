@@ -5,10 +5,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import juniormourao.rickandmorty.R
-import juniormourao.rickandmorty.core.GlideApp
 import juniormourao.rickandmorty.databinding.FragmentCharacterDetailBinding
 import juniormourao.rickandmorty.domain.model.Character
 
@@ -39,11 +38,7 @@ class CharacterDetailFragment : Fragment(R.layout.fragment_character_detail) {
                 tvCharacterStatus.text = it.status
                 tvCharacterLocation.text = it.location
                 tvCharacterOrigin.text = it.origin
-                GlideApp.with(imgCharacterImage.context)
-                    .load(character.image)
-                    .fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(imgCharacterImage)
+                imgCharacterImage.load(character.image)
             }
         }
     }

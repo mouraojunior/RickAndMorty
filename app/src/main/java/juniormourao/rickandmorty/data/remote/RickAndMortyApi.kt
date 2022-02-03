@@ -5,17 +5,17 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RickAndMortyApi {
-    @GET("character")
+    @GET("character/")
     suspend fun getCharacters(
         @Query("page")
         page: Int
     ): CharacterResponseDto
 
-    @GET("character")
+    @GET("character/")
     suspend fun getCharactersByName(
         @Query("page")
         page: Int,
-        @Query("page")
+        @Query("name")
         characterName: String
     ): CharacterResponseDto
 
