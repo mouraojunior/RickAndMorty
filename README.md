@@ -1,6 +1,18 @@
 # RickAndMorty
 An Android APP using Rick and Morty's API :link: (https://rickandmortyapi.com/). This project implements MVVM with a clean architecture approach appying some of the best practices in Android Development.
 
+<p align="start">
+  <img src="./media/app_1.png">
+</p>
+
+<p align="center">
+  <img src="./media/app_2.png">
+</p>
+
+<p align="end">
+  <img src="./media/app_3.png">
+</p>
+
 
 
 
