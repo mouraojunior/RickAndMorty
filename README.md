@@ -1,18 +1,11 @@
 # RickAndMorty
 An Android APP using Rick and Morty's API :link: (https://rickandmortyapi.com/). This project implements MVVM with a clean architecture approach appying some of the best practices in Android Development.
 
-<p align="start">
-  <img src="./media/app_1.png">
+<p align="middle">
+  <img src="./media/app_1.png" width="334">
+  <img src="./media/app_2.png" width="334">
+  <img src="./media/app_3.png" width="334">
 </p>
-
-<p align="center">
-  <img src="./media/app_2.png">
-</p>
-
-<p align="end">
-  <img src="./media/app_3.png">
-</p>
-
 
 
 
@@ -38,8 +31,7 @@ An Android APP using Rick and Morty's API :link: (https://rickandmortyapi.com/).
 - [Swipe To Refresh](https://developer.android.com/training/swipe/add-swipe-interface)
 
 ## MAD Score
-![summary](/media/mad_scorecard.png)
-
+[<img src="/media/mad_scorecard.png">](https://madscorecard.withgoogle.com/scorecards/3591633115/)
 
 
 
