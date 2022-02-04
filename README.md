@@ -8,6 +8,7 @@ An Android APP using Rick and Morty's API :link: (https://rickandmortyapi.com/).
   <img src="./media/app_3.png" width="270">
 </p>
 
+<img src="/media/app_preview.gif" align="right"  width="30%"/>
 
 ## Techs/Libraries
 - [Kotlin](https://developer.android.com/kotlin)
