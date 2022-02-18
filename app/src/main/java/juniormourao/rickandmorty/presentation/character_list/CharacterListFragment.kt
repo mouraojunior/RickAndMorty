@@ -7,7 +7,9 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +45,11 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
     private fun setUpSwipeToRefresh() {
         characterListBinding.swpRefreshCharacters.apply {
             setOnRefreshListener {
-                characterListViewModel.onEvent(CharacterListEvent.GetAllCharactersByName(characterListViewModel.searchQuery.value))
+                characterListViewModel.onEvent(
+                    CharacterListEvent.GetAllCharactersByName(
+                        characterListViewModel.searchQuery.value
+                    )
+                )
                 characterListBinding.swpRefreshCharacters.isRefreshing = false
                 characterListBinding.rvCharacters.scrollToPosition(0)
             }
@@ -87,11 +93,13 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
     }
 
     private fun collectFromViewModel() {
-        lifecycleScope.launch {
-            characterListViewModel.charactersFlow
-                .collectLatest {
-                    characterListAdapter.submitData(it)
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                characterListViewModel.charactersFlow
+                    .collectLatest {
+                        characterListAdapter.submitData(it)
+                    }
+            }
         }
     }
 
